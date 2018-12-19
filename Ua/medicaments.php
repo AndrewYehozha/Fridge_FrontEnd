@@ -1,11 +1,11 @@
 <?php if (isset ($_COOKIE['Login'])) : ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ua">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Medicaments</title>
+    <title>Медикаменти</title>
     <link rel="stylesheet" href="../style/style.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link rel="stylesheet" href="../style/bootstrap.css" />
@@ -28,8 +28,8 @@
       <nav class="dws_menu">
         <ul class="dws_ul">
           <li class="li_1">
-            <a href="home.php" title="Go to Home">
-              <i class="fas fa-home fa-5x"></i>Home
+            <a href="home.php" title="Перейти на головну">
+              <i class="fas fa-home fa-5x"></i>Головна
             </a>
           </li>
           
@@ -46,32 +46,32 @@
           <li class="language">
             <select id="lang" onChange="locationr(this.value);">
               <option value="Ru">Ru</option>
-              <option value="En" selected="selected">En</option>
-              <option value="Ua">Ua</option>
+              <option value="En">En</option>
+              <option value="Ua" selected="selected">Ua</option>
             </select>
           </li>
         <div class="list_menu">
-          <li class="li_4d"><a class="li_4d_a">My cabinet</a>
+          <li class="li_4d"><a class="li_4d_a">Мій кабінет</a>
             <ul>
             <div class="list_menu_2">
               <div>
                 <li>
-                  <a href="user_cabinet.php"><i class="fas fa-user"></i>Edit your account</a>
+                  <a href="user_cabinet.php"><i class="fas fa-user"></i>Особисті дані</a>
                 </li>
               </div>
               <div>
                 <li>
-                  <a href="fridge.php"><i class="fas fa-warehouse"></i>Storage chambers</a>
+                  <a href="fridge.php"><i class="fas fa-warehouse"></i>Камери зберігання</a>
                 </li>
               </div>
               <div>
                 <li>
-                  <a href=""><i class="fas fa-chart-bar"></i>State charts</a>
+                  <a href=""><i class="fas fa-chart-bar"></i>Графіки стану</a>
                 </li>
               </div>
               <div>
                 <li>
-                  <a onClick="logout()" href="login.php"><i class="fas fa-sign-out-alt"></i>Log out</a>
+                  <a onClick="logout()" href="login.php"><i class="fas fa-sign-out-alt"></i>Вийти</a>
                 </li>
               </div>
             </div>
@@ -84,7 +84,7 @@
       <ul class="dws_ul_reg">
         <div>
           <li class="li_5">
-            <a href="login.php"><i class="fas fa-door-open"></i>Log in</a>
+            <a href="login.php"><i class="fas fa-door-open"></i>Увійти</a>
           </li>
           </ul>
         </div>
@@ -96,25 +96,25 @@
     <div class="medicaments-page" id="medicaments_page">
         <div class="header_fridge_med">
           <div class="nameFridge_Med"><p id="d"></p></div>
-          <div class="addBut_Fridge_Med"><h6><a id="addMedicament" onClick="openAddMedicament()">Add medicament</a></h6></div>
+          <div class="addBut_Fridge_Med"><h6><a id="addMedicament" onClick="openAddMedicament()">Додати медикамент</a></h6></div>
         </div>
 
         <div class="medicaments_wrap" id="medicaments_wrap">
           
 
-          <div id="messageError"><h3>There are no medicaments in this chamber.!</h3></div>
+          <div id="messageError"><h3>Медикаменти в даній камері відсутні!</h3></div>
         </div>
-      <a class="scrollup" href="" title="UP"><i class="fas fa-arrow-circle-up fa-5x"></i></a>
+      <a class="scrollup" href="" title="ВГОРУ"><i class="fas fa-arrow-circle-up fa-5x"></i></a>
     </div>
   </body>
 
   <footer class="footer">
-    <span class="span_name"><i> &copy; All rights reserved. </i></span>
+    <span class="span_name"><i> &copy; Всі права захищені. </i></span>
     <span class="soc_footer"> 
-      <i>Social network:</i>
-      <a href="https://www.instagram.com/andrew.yehozha/?hl=ru" target="_blank" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-      <a href="https://vk.com/www" target="_blank" title="VKontakte"><i class="fab fa-vk fa-lg"></i></a>
-      <a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Telegram"></i></a>
+      <i>Соц. мережі:</i>
+      <a href="https://www.instagram.com/andrew.yehozha/?hl=ru" target="_blank" title="Інстаграм"><i class="fab fa-instagram fa-lg"></i></a>
+      <a href="https://vk.com/www" target="_blank" title="ВКонтакті"><i class="fab fa-vk fa-lg"></i></a>
+      <a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Телеграм"></i></a>
     </span>
   </footer>
 
@@ -122,7 +122,7 @@
     var idFridge = window.location.href.split("?")[1].split("=")[1];
 
     $(document).ready(function() {
-      document.getElementById('d').innerHTML = "<b><u>Chamber № "+ idFridge +"</u></b>";
+      document.getElementById('d').innerHTML = "<b><u>Камера № "+ idFridge +"</u></b>";
       loadMedicaments(idFridge);
     });
     

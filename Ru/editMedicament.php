@@ -58,7 +58,7 @@
               </div>
               <div>
                 <li>
-                  <a href="php/authorization/logout.php"><i class="fas fa-chart-bar"></i>Графики состояния</a>
+                  <a href=""><i class="fas fa-chart-bar"></i>Графики состояния</a>
                 </li>
               </div>
               <div>
@@ -86,17 +86,17 @@
     </div>
 
     <div class="medicaments-page" id="medicaments_page">
-        <p><u>Введите информацию о препарате:</u></p>
+        <p><u>Введите информацию о медикаменте:</u></p>
     <div class="edit_medicaments" id="medicaments_wrap">
       <div class="mw_page">
         <div class="user_wrap" id="user_wrap">
-            <div>Название препарата:<input id="nameMedicament" type="text" value=""></div>
+            <div>Название медикамента:<input id="nameMedicament" type="text" value=""></div>
             <div>Количество:<input id="amount" type="number" min="1" value=""></div>
             <div>Цена:<input id="price" type="number" step="0.01" min="1" value=""></div>
             <div>Дата изготовления:<input type="date" min="2015-01-01" max="2050-12-31" id="dataProduction" value=""></div>
             <div>Годен до:<input type="date" min="2015-01-01" max="2050-12-31" id="expirationDate" value=""></div>
-            <div>Хранить от ( t C&deg):<input id="minTemperature" type="number" step="0.01" value=""></div>
-            <div>Хранить до ( t C&deg):<input id="maxTemperature" type="number" step="0.01" value=""></div>
+            <div>Хранить от ( t C&deg):<input id="minTemperature" type="number" step="0.01" min="-99" max="99" value=""></div>
+            <div>Хранить до ( t C&deg):<input id="maxTemperature" type="number" step="0.01" min="-99" max="99" value=""></div>
             <div>Состояние:  <select id="status"><option value="true">Пригоден</option><option value="false">Не пригоден</option></select> </div>
         </div> 
                     
@@ -113,7 +113,7 @@
       <i>Соц. сети:</i>
       <a href="https://www.instagram.com/andrew.yehozha/?hl=ru" target="_blank" title="Инстаграм"><i class="fab fa-instagram fa-lg"></i></a>
       <a href="https://vk.com/www" target="_blank" title="Вконтакте"><i class="fab fa-vk fa-lg"></i></a>
-      <a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Телеграмм"></i></a>
+      <a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Телеграм"></i></a>
     </span>
   </footer>
 

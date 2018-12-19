@@ -59,7 +59,7 @@
               </div>
               <div>
                 <li>
-                  <a href="php/authorization/logout.php"><i class="fas fa-chart-bar"></i>State charts</a>
+                  <a href=""><i class="fas fa-chart-bar"></i>State charts</a>
                 </li>
               </div>
               <div>
@@ -167,8 +167,6 @@
     loadUser($.cookie("Id"));
     }
   </script>
-
-  <script>$(".scrollup").fadeOut();</script>
 
 </html>
 <?php else : 

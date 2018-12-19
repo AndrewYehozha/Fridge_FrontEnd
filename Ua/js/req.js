@@ -27,7 +27,7 @@ function handleCheckUser(json){
         document.location.reload();
       }
       else{ 
-          alert("Логин или пароль были введены не верно!");
+          alert("Логін або пароль були введені не вірно!");
       }
 }
 
@@ -78,7 +78,7 @@ function saveUser(id, login, pass, nameOrg, role, country, city, address, phone)
             document.location.reload();
         }
         else{
-            alert("Пользователь с таким логином уже зарегистрирован!");
+            alert("Користувач з таким email вже зареєстрований!");
         }
     });
 }
@@ -98,10 +98,10 @@ function handleLoadFridge(json) {
             document.getElementById('fridge_wrap').innerHTML += 
                 '<div class="fridge" id="' + json[i].IdFridge + '">'+
                     '<p id="box1"><b><u> Камера № ' + json[i].IdFridge + ' </u></b></p>'+
-                    '<p id="box22"><b>Влажность: ' + json[i].LastHumidity + ' </b>%</p>'+
+                    '<p id="box22"><b>Вологість: ' + json[i].LastHumidity + ' </b>%</p>'+
                     '<p id="box2"><b>Температура: ' + json[i].LastTemperature + ' C&deg</b></p>'+
-                    '<p id="box3"><a href="medicaments.php?idFridge='+ json[i].IdFridge +'"><b>Содержимое</b></a></p>'+              
-                    '<form><p id="box4"><a onClick="deleteFridge('+json[i].IdFridge+')"><b>Удалить камеру</b></a></p></form>'+
+                    '<p id="box3"><a href="medicaments.php?idFridge='+ json[i].IdFridge +'"><b>Вміст</b></a></p>'+              
+                    '<form><p id="box4"><a onClick="deleteFridge('+json[i].IdFridge+')"><b>Видалити камеру</b></a></p></form>'+
                 '</div>';
         }
     }
@@ -124,13 +124,13 @@ function addFridge(idUser){
             document.location.reload();
         }
         else{
-            alert("Что-то пошло не так!");
+            alert("Щось пішло не так!");
         }
     });
 }
 
 function deleteFridge(id){
-    if(confirm("Вы уверены, что хотите удалить камеру №" + id +" ?")){
+    if(confirm("Ви впевнені, що хочете видалити камеру №" + id +" ?")){
         fetch('https://medicalfridgeserver.azurewebsites.net/api/Fridges/' + id , {
             method: 'delete'
         })
@@ -140,7 +140,7 @@ function deleteFridge(id){
                 document.location.reload();
             }
             else{
-                alert("Что-то пошло не так!");
+                alert("Щось пішло не так!");
             }
         }) 
         .catch(console.error);
@@ -165,29 +165,29 @@ function handleLoadMedicaments(json){
             var dateExpir =new Date(json[i].ExpirationDate);
             dateExpir.setDate(dateExpir.getDate() + 1);
 
-            var stat = "Не пригоден";
+            var stat = "Не придатний";
             if(json[i].Status){
-                stat = "Пригоден";
+                stat = "Придатний";
             }
             else{
-                stat = "Не пригоден";
+                stat = "Не придатний";
             }
 
             document.getElementById('medicaments_wrap').innerHTML +=
                 '<div class="med_one" id="med_one">'+
                 '<div id="row1">'+
-                    '<div id="name"><b><u>Название</u>: &nbsp</b> '+ json[i].Name +'</div>'+
-                    '<div id="amount"><b><u>Количество</u>: &nbsp</b> '+ json[i].Amount +'</div>'+
-                    '<div id="price"><b><u>Цена</u>:</b> &nbsp &nbsp &nbsp &nbsp '+ json[i].Price +'&nbsp грн.</div>'+
-                    '<div id="status"><b><u> Состояние</u>:</b> &nbsp &nbsp <span id="span'+ i +'">' + stat +'</span></div>'+
-                    '<a id="edit" href="editMedicament.php?idFridge='+ json[i].IdFridge +'&idMedicament='+json[i].IdMedicament+'">Редактировать</a>'+
+                    '<div id="name"><b><u>Назва</u>: &nbsp</b> '+ json[i].Name +'</div>'+
+                    '<div id="amount"><b><u>Кількість</u>: &nbsp</b> '+ json[i].Amount +'</div>'+
+                    '<div id="price"><b><u>Ціна</u>:</b> &nbsp &nbsp &nbsp &nbsp '+ json[i].Price +'&nbsp грн.</div>'+
+                    '<div id="status"><b><u> Стан</u>:</b> &nbsp &nbsp <span id="span'+ i +'">' + stat +'</span></div>'+
+                    '<a id="edit" href="editMedicament.php?idFridge='+ json[i].IdFridge +'&idMedicament='+json[i].IdMedicament+'">Редагувати</a>'+
                 '</div>'+
                 '<div id="row2">'+
-                    '<div id="dataProd"><b><u>Дата изготовления</u>:</b> &nbsp '+ dateProd.toISOString().slice(0,10) +'</div>'+
-                    '<div id="dataExp"><b><u>Годен до</u>:</b> &nbsp '+ dateExpir.toISOString().slice(0,10) +'</div>'+
-                    '<div id="temp"><b><u>Хранить</u>:</b> <b> &nbsp от </b> '+ json[i].MinTemperature +' C&deg<b> до </b>'+ json[i].MaxTemperature +' C&deg</div>'+
+                    '<div id="dataProd"><b><u>Дата виготовлення</u>:</b> &nbsp '+ dateProd.toISOString().slice(0,10) +'</div>'+
+                    '<div id="dataExp"><b><u>Придатний до</u>:</b> &nbsp '+ dateExpir.toISOString().slice(0,10) +'</div>'+
+                    '<div id="temp"><b><u>Зберігати</u>:</b> <b> від </b> '+ json[i].MinTemperature +' C&deg<b> до </b>'+ json[i].MaxTemperature +' C&deg</div>'+
                     '<div></div>'+
-                    '<a id="del" onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Удалить</a>'+
+                    '<a id="del" onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Видалити</a>'+
                 '</div>'+
                 '</div>';
             if(!json[i].Status){
@@ -225,7 +225,7 @@ function saveMedicament(id, idFridge, nameMedicament, amount, dataProduction,
                 document.location.href = ("medicaments.php?idFridge="+idFridge);
             }
             else{
-                alert("Что-то пошло не так!");
+                alert("Щось пішло не так!");
             }
         });
 }
@@ -256,14 +256,14 @@ function addMedicament(idFridge, nameMedicament, amount, dataProduction,
                 document.location.href = ("medicaments.php?idFridge="+idFridge);
             }
             else{
-                alert("Что-то пошло не так!");
+                alert("Щось пішло не так!");
             }
         });
 }
 
 function medicamentValid(){
     if(new Date(dataProduction.value) > new Date(expirationDate.value)){
-        alert("Дата изготовления не может быть больше даты пригодности!");
+        alert("Дата виготовлення не може бути більша за дату придатності!");
         return false;
     }
 
@@ -381,7 +381,7 @@ function handleLoadOneMedicaments(json){
 }
 
 function deleteMedicaments(id, name){
-    if(confirm("Вы уверены, что хотите удалить медикамент <" + name +">?")){
+    if(confirm("Ви впевнені, що хочете видалити медикамент <" + name +">?")){
         fetch('https://medicalfridgeserver.azurewebsites.net/api/Medicaments/' + id , {
             method: 'delete'
         })
@@ -391,7 +391,7 @@ function deleteMedicaments(id, name){
                 document.location.reload();
             }
             else{
-                alert("Что-то пошло не так!");
+                alert("Щось пішло не так!");
             }
         }) 
         .catch(console.error);

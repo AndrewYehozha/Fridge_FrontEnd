@@ -58,7 +58,7 @@
               </div>
               <div>
                 <li>
-                  <a href="php/authorization/logout.php"><i class="fas fa-chart-bar"></i>State charts</a>
+                  <a href=""><i class="fas fa-chart-bar"></i>State charts</a>
                 </li>
               </div>
               <div>
@@ -88,7 +88,7 @@
         </div>
         <div class="reg_">
           <li class="li_6">
-            <a href="signup.php"></i>Register</a>
+            <a href="signup.php"></i>Sign up</a>
           </li>
         </div>
       </ul>
@@ -97,18 +97,7 @@
     </div>
 
     <div class="wrap-page">
-      <div class="wrapper">
-        <div>Loren70wd efeow fowehfoi whfoihw efoih eoiwf</div>
-        <div class="light">wdhhd ihwdio whdo hwdh whdh wodhw hfeyg yg</div>
-        <div></div>
-        <div></div>
-      </div>
-      <div class="wrapper">
-        <div>Loren70wd efeow fowehfoi whfoihw efoih eoiwf</div>
-        <div class="light">wdhhd ihwdio whdo hwdh whdh wodhw hfeyg yg</div>
-        <div><a href="test.php">Регестрация</a></div>
-      </div>
-      <a class="scrollup" href="" title="Scroll UP"><i class="fas fa-arrow-circle-up fa-5x"></i></a>
+      
     </div>
       
   </body>

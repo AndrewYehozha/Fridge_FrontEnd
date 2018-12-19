@@ -1,11 +1,11 @@
 <?php if (!isset ($_SESSION['logged_user']) ) : ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ua">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Регистрация</title>
+    <title>Реєстрація</title>
     <link rel="stylesheet" href="../style/style_reg_log.css">
     <link rel="stylesheet" href="../style/style.css"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -19,8 +19,8 @@
       <nav class="dws_menu">
         <ul class="dws_ul">
           <li class="li_1">
-            <a href="home.php" title="Перейти на главную">
-              <i class="fa fa-home fa-lg"></i>Главная
+            <a href="home.php" title="Перейти на головну">
+              <i class="fa fa-home fa-lg"></i>Головна
             </a>
           </li>
         </ul>
@@ -29,14 +29,14 @@
       <ul class="dws_ul_reg">
           <li class="language">
             <select id="lang" onChange="window.location = '../'+this.value + '/signup.php'";>
-              <option value="Ru" selected="selected">Ru</option>
+              <option value="Ru">Ru</option>
               <option value="En">En</option>
-              <option value="Ua">Ua</option>
+              <option value="Ua" selected="selected">Ua</option>
             </select>
           </li>
         <div>
           <li class="li_5">
-            <a href="login.php"><i class="fas fa-door-open"></i>Войти</a>
+            <a href="login.php"><i class="fas fa-door-open"></i>Увійти</a>
           </li>
           </ul>
         </div>
@@ -48,18 +48,18 @@
 
     <div class="login-page">
       <div class="form">
-        <span>Регистрация</span>
+        <span>Реєстрація</span>
         <form class="register-form" action="alert('')" method="POST">
-          <input required type="text" placeholder="Логин" name="login" value="<?php echo @$data['login']; ?>"><br/>
+          <input required type="text" placeholder="Логін" name="login" value="<?php echo @$data['login']; ?>"><br/>
 
-          <input required type="email" placeholder="Электронная почта" name="email" value="<?php echo @$data['email']; ?>"><br/>
+          <input required type="email" placeholder="Електронна пошта" name="email" value="<?php echo @$data['email']; ?>"><br/>
 
           <input required type="password" placeholder="Пароль" name="password" value="<?php echo @$data['password']; ?>"><br/>
 
-          <input required type="password" placeholder="Повторите пароль" name="password_2" value="<?php echo @$data['password_2']; ?>"><br/>
+          <input required type="password" placeholder="Повторіть пароль" name="password_2" value="<?php echo @$data['password_2']; ?>"><br/>
 
-          <button type="submit" name="do_signup">Зарегистрироваться</button>
-          <p class="message">Уже зарегистрированы? <a href="login.php">Войти</a></p>
+          <button type="submit" name="do_signup">Зареєструватися</button>
+          <p class="message">Вже зареєстровані? <a href="login.php">Увійти</a></p>
         </form>
       </div>
     </div>
@@ -71,11 +71,11 @@
   </body>
 
   <footer class="footer">
-	<span class="span_name"><i> &copy; Все права защищены. </i></span>
+	<span class="span_name"><i> &copy; Всі права захищені. </i></span>
 	<span class="soc_footer"> 
-		<i>Соц. сети:</i>
-		<a href="https://www.instagram.com/andrew.yehozha/?hl=ru" target="_blank" title="Инстаграм"><i class="fab fa-instagram fa-lg"></i></a>
-		<a href="https://vk.com/www" target="_blank" title="Вконтакте"><i class="fab fa-vk fa-lg"></i></a>
+		<i>Соц. мережі:</i>
+		<a href="https://www.instagram.com/andrew.yehozha/?hl=ru" target="_blank" title="Інстаграм"><i class="fab fa-instagram fa-lg"></i></a>
+		<a href="https://vk.com/www" target="_blank" title="ВКонтакті"><i class="fab fa-vk fa-lg"></i></a>
 		<a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Телеграм"></i></a>
 	</span>
   </footer>

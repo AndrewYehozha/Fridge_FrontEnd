@@ -59,7 +59,7 @@
               </div>
               <div>
                 <li>
-                  <a href="php/authorization/logout.php"><i class="fas fa-chart-bar"></i>Графики состояния</a>
+                  <a href=""><i class="fas fa-chart-bar"></i>Графики состояния</a>
                 </li>
               </div>
               <div>
@@ -106,7 +106,7 @@
       <i>Соц. сети:</i>
       <a href="https://www.instagram.com/andrew.yehozha/?hl=ru" target="_blank" title="Инстаграм"><i class="fab fa-instagram fa-lg"></i></a>
       <a href="https://vk.com/www" target="_blank" title="Вконтакте"><i class="fab fa-vk fa-lg"></i></a>
-      <a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Телеграмм"></i></a>
+      <a href="https://t.me/Yehozha" target="_blank"><i class="fab fa-telegram fa-lg" title="Телеграм"></i></a>
     </span>
   </footer>
 
