@@ -178,7 +178,7 @@ function handleLoadMedicaments(json){
                 '<div id="row1">'+
                     '<div id="name"><b><u>Название</u>: &nbsp</b> '+ json[i].Name +'</div>'+
                     '<div id="amount"><b><u>Количество</u>: &nbsp</b> '+ json[i].Amount +'</div>'+
-                    '<div id="price"><b><u>Цена</u>:</b> &nbsp &nbsp &nbsp &nbsp '+ json[i].Price +'&nbsp грн.</div>'+
+                    '<div id="price"><b><u>Цена</u>:</b> &nbsp &nbsp &nbsp &nbsp '+ (json[i].Price / 2.4).toFixed(2) +' &#8381</div>'+
                     '<div id="status"><b><u> Состояние</u>:</b> &nbsp &nbsp <span id="span'+ i +'">' + stat +'</span></div>'+
                     '<a id="edit" href="editMedicament.php?idFridge='+ json[i].IdFridge +'&idMedicament='+json[i].IdMedicament+'">Редактировать</a>'+
                 '</div>'+
