@@ -28,7 +28,7 @@
       
       <ul class="dws_ul_reg">
           <li class="language">
-            <select id="lang">
+            <select id="lang" onChange="window.location = '../'+this.value + '/signup.php'";>
               <option value="Ru" selected="selected">Ru</option>
               <option value="En">En</option>
               <option value="Ua">Ua</option>
@@ -49,7 +49,7 @@
     <div class="login-page">
       <div class="form">
         <span>Регистрация</span>
-        <form class="register-form" action="alert('') method="POST">
+        <form class="register-form" action="alert('')" method="POST">
           <input required type="text" placeholder="Логин" name="login" value="<?php echo @$data['login']; ?>"><br/>
 
           <input required type="email" placeholder="Электронная почта" name="email" value="<?php echo @$data['email']; ?>"><br/>

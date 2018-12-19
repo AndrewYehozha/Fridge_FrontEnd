@@ -27,7 +27,7 @@
       
       <ul class="dws_ul_reg">
           <li class="language">
-            <select id="lang">
+            <select id="lang" onChange="window.location = '../'+this.value + '/login.php'";>
               <option value="Ru" selected="selected">Ru</option>
               <option value="En">En</option>
               <option value="Ua">Ua</option>
@@ -53,7 +53,9 @@
         </div>
       </div>
     </div>
+    
   </body>
+
   <footer class="footer">
 	<span class="span_name"><i> &copy; Все права защищены. </i></span>
 	<span class="soc_footer"> 

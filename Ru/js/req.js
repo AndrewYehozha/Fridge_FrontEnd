@@ -117,7 +117,7 @@ function addFridge(idUser){
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ IdFridge: 1110, IdUser: idUser})
+        body: JSON.stringify({ IdFridge: 0, IdUser: idUser})
     }).then(res=>res.json())
     .then(function(json){
         if(json){
@@ -164,16 +164,45 @@ function handleLoadMedicaments(json){
             dateProd.setDate(dateProd.getDate() + 1);
             var dateExpir =new Date(json[i].ExpirationDate);
             dateExpir.setDate(dateExpir.getDate() + 1);
-            
-            document.getElementById('medicaments_wrap').innerHTML += 
-                '<br><span><b><u>Название препарата:</u></b> '+ json[i].Name +'; <b><u>Количество:</u></b> '+ json[i].Amount +'; <b><u>Цена:</u></b> '+ json[i].Price +
-                '; <b><u>Дата изготовления:</u></b> '+ dateProd.toISOString().slice(0,10) +'; <b><u>Годен до:</u></b> '+ dateExpir.toISOString().slice(0,10) +'; <b><u>Хранить</u></b> <b>от</b> '+ json[i].MinTemperature +' C&deg'+
-                '<b>до</b> '+ json[i].MaxTemperature +' C&deg'+ '; <b><u> Статус:</u></b> ' + json[i].Status +
-                '<button"><a href="editMedicament.php?idMedicament='+ json[i].IdMedicament +'&idFridge='+json[i].IdFridge+'">Редактировать</a></button>'+
-                '<button onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Удалить</button></span>';
+
+            var stat = "Не пригоден";
+            if(json[i].Status){
+                stat = "Пригоден";
+            }
+            else{
+                stat = "Не пригоден";
+            }
+
+            document.getElementById('medicaments_wrap').innerHTML +=
+                '<div class="med_one" id="med_one">'+
+                '<div id="row1">'+
+                    '<div id="name"><b><u>Название</u>: &nbsp</b> '+ json[i].Name +'</div>'+
+                    '<div id="amount"><b><u>Количество</u>: &nbsp</b> '+ json[i].Amount +'</div>'+
+                    '<div id="price"><b><u>Цена</u>:</b> &nbsp &nbsp &nbsp &nbsp '+ json[i].Price +'&nbsp грн.</div>'+
+                    '<div id="status"><b><u> Состояние</u>:</b> &nbsp &nbsp <span id="span'+ i +'">' + stat +'</span></div>'+
+                    '<a id="edit" href="editMedicament.php?idFridge='+ json[i].IdFridge +'&idMedicament='+json[i].IdMedicament+'">Редактировать</a>'+
+                '</div>'+
+                '<div id="row2">'+
+                    '<div id="dataProd"><b><u>Дата изготовления</u>:</b> &nbsp '+ dateProd.toISOString().slice(0,10) +'</div>'+
+                    '<div id="dataExp"><b><u>Годен до</u>:</b> &nbsp '+ dateExpir.toISOString().slice(0,10) +'</div>'+
+                    '<div id="temp"><b><u>Хранить</u>:</b> <b> &nbsp от </b> '+ json[i].MinTemperature +' C&deg<b> до </b>'+ json[i].MaxTemperature +' C&deg</div>'+
+                    '<div></div>'+
+                    '<a id="del" onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Удалить</a>'+
+                '</div>'+
+                '</div>';
+            if(!json[i].Status){
+                document.querySelector('#span'+i).style = "color: red;";
+            }
         }
     }else{
         document.getElementById('messageError').style = 'display:inherit;'; 
+    }
+}
+
+function saveMedicaments(){
+    if(medicamentValid()){
+      saveMedicament(idMedicament, idFridge, nameMedicament.value, amount.value, dataProduction.value,
+                    expirationDate.value, price.value, minTemperature.value, maxTemperature.value, document.getElementById("status").value);
     }
 }
 
@@ -199,6 +228,130 @@ function saveMedicament(id, idFridge, nameMedicament, amount, dataProduction,
                 alert("Что-то пошло не так!");
             }
         });
+}
+
+function addMedicaments(){
+    if(medicamentValid()){
+      addMedicament(idFridge, nameMedicament.value, amount.value, dataProduction.value,
+                    expirationDate.value, price.value, minTemperature.value, maxTemperature.value, document.getElementById("status").value);
+    }
+}
+
+function addMedicament(idFridge, nameMedicament, amount, dataProduction,
+    expirationDate, price, minTemperature, maxTemperature, status){
+        fetch('https://medicalfridgeserver.azurewebsites.net/api/Medicaments', {
+            method: 'post',
+            headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({  IdMedicament: 0, IdFridge: idFridge,
+                                    Name: nameMedicament, Amount: amount, DataProduction: dataProduction,
+                                    ExpirationDate: expirationDate, Price: price, MinTemperature: minTemperature,
+                                    MaxTemperature: maxTemperature, Status: status
+                                })
+        }).then(res=>res.json())
+        .then(function(json){
+            if(json){
+                document.location.href = ("medicaments.php?idFridge="+idFridge);
+            }
+            else{
+                alert("Что-то пошло не так!");
+            }
+        });
+}
+
+function medicamentValid(){
+    if(new Date(dataProduction.value) > new Date(expirationDate.value)){
+        alert("Дата изготовления не может быть больше даты пригодности!");
+        return false;
+    }
+
+    if((document.getElementById('nameMedicament').value.trim() == "") && (!document.getElementById('amount').validity.valid || (amount.value == "")) &&
+        (!document.getElementById('price').validity.valid || (price.value == "")) && (!document.getElementById('dataProduction').validity.valid || (dataProduction.value == "")) &&
+        (!document.getElementById('expirationDate').validity.valid || (expirationDate.value == "")) && (!document.getElementById('minTemperature').validity.valid || (minTemperature.value == "")) &&
+        (!document.getElementById('maxTemperature').validity.valid || (maxTemperature.value == ""))){
+        
+        return true;
+    }
+
+
+    if(document.getElementById('nameMedicament').value.trim() == ""){
+        document.getElementById('nameMedicament').style = "border-style: solid; border-width: 2px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('nameMedicament').style = "border-style: none;";
+
+    if(!document.getElementById('amount').validity.valid || (amount.value == "")){
+        document.getElementById('amount').style = "border-style: solid; border-width: 2px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('amount').style = "border-style: none;";
+
+    if(!document.getElementById('price').validity.valid || (price.value == "")){
+        document.getElementById('price').style = "border-style: solid; border-width: 2px; border-color: red;";
+        
+        let pric = parseFloat(price.value).toFixed(2);
+        if(!isNaN(pric))
+            price.value = pric;
+            
+        if(document.getElementById('price').validity.valid)
+            document.getElementById('price').style = "border-style: none;";
+
+        return false;
+    }
+    else
+        document.getElementById('price').style = "border-style: none;";
+
+    if(!document.getElementById('dataProduction').validity.valid || (dataProduction.value == "")){
+        document.getElementById('dataProduction').style = "border-style: solid; border-width: 1px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('dataProduction').style = "border-style: none;";
+
+    if(!document.getElementById('expirationDate').validity.valid || (expirationDate.value == "")){
+        document.getElementById('expirationDate').style = "border-style: solid; border-width: 1px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('expirationDate').style = "border-style: none;";
+
+    if(!document.getElementById('minTemperature').validity.valid || (minTemperature.value == "")){
+        document.getElementById('minTemperature').style = "border-style: solid; border-width: 2px; border-color: red;";
+
+        let min = parseFloat(minTemperature.value).toFixed(2);
+        if(!isNaN(min))
+            minTemperature.value = min;
+            
+        if(document.getElementById('minTemperature').validity.valid)
+            document.getElementById('minTemperature').style = "border-style: none;";
+
+        return false;
+    }
+    else
+        document.getElementById('minTemperature').style = "border-style: none;";
+
+    if(!document.getElementById('maxTemperature').validity.valid || (maxTemperature.value == "")){
+        document.getElementById('maxTemperature').style = "border-style: solid; border-width: 2px; border-color: red;";
+
+        let max = parseFloat(maxTemperature.value).toFixed(2);
+        if(!isNaN(max))
+            maxTemperature.value = max;
+            
+        if(document.getElementById('maxTemperature').validity.valid){
+            document.getElementById('maxTemperature').style = "border-style: none;";
+            return true;
+        }
+
+        return false;
+    }
+    else
+        document.getElementById('maxTemperature').style = "border-style: none;";
+
+    return true;
 }
 
 function loadOneMedicaments(value){
@@ -234,8 +387,7 @@ function deleteMedicaments(id, name){
         })
         .then(response => response.json())
         .then(function(json){ 
-            if(json){
-                alert("Препарат <"+ name +"> был удалён"); 
+            if(json){ 
                 document.location.reload();
             }
             else{

@@ -36,7 +36,7 @@
       <?php if (isset($_COOKIE['Login'])) : ?>
       <ul class="dws_ul_my-cabinet">
           <li class="language">
-            <select id="lang">
+            <select id="lang" onChange="window.location = '../'+this.value + '/user_cabinet.php'";>
               <option value="Ru" selected="selected">Ru</option>
               <option value="En">En</option>
               <option value="Ua">Ua</option>
@@ -93,9 +93,9 @@
           <div>Страна:<input id="country" type="text" value=""></div>
           <div>Город:<input id="city" type="text" value=""></div>
           <div>Адрес:<input id="address" type="text" value=""></div>
-          <div>Телефон:<input id="phone" type="text" value=""></div>
+          <div>Телефон:<input id="phone" type="number" value=""></div>
           <div>Название организации:<input id="nameOrganiz" type="text" value=""></div>
-          <div>Логин:<input id="login" type="text" value=""></div></div>
+          <div>Email:<input id="login" type="email" value=""></div></div>
                                                   
           <div class="save_user"><li id="save_user" onClick="saveUserC()">Сохранить</li></div>
           <div class="s" id="changePass"><a onClick="showPass()">Cменить пароль</a></div>
@@ -152,7 +152,8 @@
         check = true;
       }
       if(check){
-        saveUser($.cookie("Id"), login.value.trim(), pass, nameOrganiz.value.trim(), $.cookie("Role"), country.value.trim(), city.value.trim(), address.value.trim(), phone.value.trim());
+        if(login.validity.valid)
+          saveUser($.cookie("Id"), login.value.trim(), pass, nameOrganiz.value.trim(), $.cookie("Role"), country.value.trim(), city.value.trim(), address.value.trim(), phone.value.trim());
       }
     }
 

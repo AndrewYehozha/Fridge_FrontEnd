@@ -164,16 +164,45 @@ function handleLoadMedicaments(json){
             dateProd.setDate(dateProd.getDate() + 1);
             var dateExpir =new Date(json[i].ExpirationDate);
             dateExpir.setDate(dateExpir.getDate() + 1);
-            
-            document.getElementById('medicaments_wrap').innerHTML += 
-                '<br><span><b><u>Medicament name:</u></b> '+ json[i].Name +'; <b><u>Ammount:</u></b> '+ json[i].Amount +'; <b><u>Price:</u></b> '+ json[i].Price +
-                '; <b><u>Date of manufacture:</u></b> '+ dateProd.toISOString().slice(0,10) +'; <b><u>Valid until:</u></b> '+ dateExpir.toISOString().slice(0,10) +'; <b><u>Store </u></b> <b>from</b> '+ json[i].MinTemperature +' C&deg'+
-                '<b>to</b> '+ json[i].MaxTemperature +' C&deg'+ '; <b><u> Condition:</u></b> ' + json[i].Status +
-                '<button"><a href="editMedicament.php?idMedicament='+ json[i].IdMedicament +'&idFridge='+json[i].IdFridge+'">Edit</a></button>'+
-                '<button onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Delete</button></span>';
+
+            var stat = "Unusable";
+            if(json[i].Status){
+                stat = "Useful";
+            }
+            else{
+                stat = "Unusable";
+            }
+
+            document.getElementById('medicaments_wrap').innerHTML +=
+                '<div class="med_one" id="med_one">'+
+                '<div id="row1">'+
+                    '<div id="name"><b><u>Medicament name</u>: &nbsp</b> '+ json[i].Name +'</div>'+
+                    '<div id="amount"><b><u>Ammount</u>: &nbsp</b> '+ json[i].Amount +'</div>'+
+                    '<div id="price"><b><u>Price</u>:</b> &nbsp &nbsp &nbsp &nbsp '+ (json[i].Price / 28).toFixed(2) +'&nbsp&#36</div>'+
+                    '<div id="status"><b><u> Condition</u>:</b> &nbsp &nbsp <span id="span'+ i +'">' + stat +'</span></div>'+
+                    '<a id="edit" href="editMedicament.php?idFridge='+ json[i].IdFridge +'&idMedicament='+json[i].IdMedicament+'">Edit</a>'+
+                '</div>'+
+                '<div id="row2">'+
+                    '<div id="dataProd"><b><u>Date of manufacture</u>:</b> &nbsp '+ dateProd.toISOString().slice(0,10) +'</div>'+
+                    '<div id="dataExp"><b><u>Valid until</u>:</b> &nbsp '+ dateExpir.toISOString().slice(0,10) +'</div>'+
+                    '<div id="temp"><b><u>Store</u>:</b> <b> &nbsp from </b> '+ json[i].MinTemperature +' C&deg<b> to </b>'+ json[i].MaxTemperature +' C&deg</div>'+
+                    '<div></div>'+
+                    '<a id="del" onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Delete</a>'+
+                '</div>'+
+                '</div>';
+            if(!json[i].Status){
+                document.querySelector('#span'+i).style = "color: red;";
+            }
         }
     }else{
         document.getElementById('messageError').style = 'display:inherit;'; 
+    }
+}
+
+function saveMedicaments(){
+    if(medicamentValid()){
+      saveMedicament(idMedicament, idFridge, nameMedicament.value, amount.value, dataProduction.value,
+                    expirationDate.value, price.value, minTemperature.value, maxTemperature.value, document.getElementById("status").value);
     }
 }
 
@@ -187,7 +216,7 @@ function saveMedicament(id, idFridge, nameMedicament, amount, dataProduction,
             },
             body: JSON.stringify({  IdMedicament: id, IdFridge: idFridge,
                                     Name: nameMedicament, Amount: amount, DataProduction: dataProduction,
-                                    ExpirationDate: expirationDate, Price: price, MinTemperature: minTemperature,
+                                    ExpirationDate: expirationDate, Price: ((price * 28).toFixed(2)), MinTemperature: minTemperature,
                                     MaxTemperature: maxTemperature, Status: status
                                 })
         }).then(res=>res.json())
@@ -199,6 +228,121 @@ function saveMedicament(id, idFridge, nameMedicament, amount, dataProduction,
                 alert("Error!");
             }
         });
+}
+
+function addMedicaments(){
+    if(medicamentValid()){
+      addMedicament(idFridge, nameMedicament.value, amount.value, dataProduction.value,
+                    expirationDate.value, price.value, minTemperature.value, maxTemperature.value, document.getElementById("status").value);
+    }
+}
+
+function addMedicament(idFridge, nameMedicament, amount, dataProduction,
+    expirationDate, price, minTemperature, maxTemperature, status){
+        fetch('https://medicalfridgeserver.azurewebsites.net/api/Medicaments', {
+            method: 'post',
+            headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({  IdMedicament: 0, IdFridge: idFridge,
+                                    Name: nameMedicament, Amount: amount, DataProduction: dataProduction,
+                                    ExpirationDate: expirationDate, Price: ((price * 28).toFixed(2)), MinTemperature: minTemperature,
+                                    MaxTemperature: maxTemperature, Status: status
+                                })
+        }).then(res=>res.json())
+        .then(function(json){
+            if(json){
+                document.location.href = ("medicaments.php?idFridge="+idFridge);
+            }
+            else{
+                alert("Error!");
+            }
+        });
+}
+
+function medicamentValid(){
+    if(new Date(dataProduction.value) > new Date(expirationDate.value)){
+        alert("Production date cannot exceed suitability date!");
+        return false;
+    }
+
+    if(document.getElementById('nameMedicament').value.trim() == ""){
+        document.getElementById('nameMedicament').style = "border-style: solid; border-width: 2px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('nameMedicament').style = "border-style: none;";
+
+    if(!document.getElementById('amount').validity.valid || (amount.value == "")){
+        document.getElementById('amount').style = "border-style: solid; border-width: 2px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('amount').style = "border-style: none;";
+
+    if(!document.getElementById('price').validity.valid || (price.value == "")){
+        document.getElementById('price').style = "border-style: solid; border-width: 2px; border-color: red;";
+        
+        let pric = parseFloat(price.value).toFixed(2);
+        if(!isNaN(pric))
+            price.value = pric;
+            
+        if(document.getElementById('price').validity.valid)
+            document.getElementById('price').style = "border-style: none;";
+
+        return false;
+    }
+    else
+        document.getElementById('price').style = "border-style: none;";
+
+    if(!document.getElementById('dataProduction').validity.valid || (dataProduction.value == "")){
+        document.getElementById('dataProduction').style = "border-style: solid; border-width: 1px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('dataProduction').style = "border-style: none;";
+
+    if(!document.getElementById('expirationDate').validity.valid || (expirationDate.value == "")){
+        document.getElementById('expirationDate').style = "border-style: solid; border-width: 1px; border-color: red;";
+        return false;
+    }
+    else
+        document.getElementById('expirationDate').style = "border-style: none;";
+
+    if(!document.getElementById('minTemperature').validity.valid || (minTemperature.value == "")){
+        document.getElementById('minTemperature').style = "border-style: solid; border-width: 2px; border-color: red;";
+
+        let min = parseFloat(minTemperature.value).toFixed(2);
+        if(!isNaN(min))
+            minTemperature.value = min;
+            
+        if(document.getElementById('minTemperature').validity.valid)
+            document.getElementById('minTemperature').style = "border-style: none;";
+
+        return false;
+    }
+    else
+        document.getElementById('minTemperature').style = "border-style: none;";
+
+    if(!document.getElementById('maxTemperature').validity.valid || (maxTemperature.value == "")){
+        document.getElementById('maxTemperature').style = "border-style: solid; border-width: 2px; border-color: red;";
+
+        let max = parseFloat(maxTemperature.value).toFixed(2);
+        if(!isNaN(max))
+            maxTemperature.value = max;
+            
+        if(document.getElementById('maxTemperature').validity.valid){
+            document.getElementById('maxTemperature').style = "border-style: none;";
+            return true;
+        }
+
+        return false;
+    }
+    else
+        document.getElementById('maxTemperature').style = "border-style: none;";
+
+    return true;
 }
 
 function loadOneMedicaments(value){
@@ -214,7 +358,7 @@ function handleLoadOneMedicaments(json){
     if(json != ""){
         document.getElementById('nameMedicament').value = json[i].Name;
         document.getElementById('amount').value = json[i].Amount;
-        document.getElementById('price').value = json[i].Price;
+        document.getElementById('price').value = (json[i].Price / 28).toFixed(2);
         var dateProd = new Date(json[i].DataProduction);
         dateProd.setDate(dateProd.getDate() + 1);
         document.getElementById('dataProduction').value = dateProd.toISOString().slice(0,10);

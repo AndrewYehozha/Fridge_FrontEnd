@@ -37,7 +37,7 @@
       <?php if (isset($_COOKIE['Id'])) : ?>
       <ul class="dws_ul_my-cabinet">
           <li class="language">
-            <select id="lang">
+            <select id="lang" onChange="window.location = '../'+this.value + '/fridge.php'";>
               <option value="Ru" selected="selected">Ru</option>
               <option value="En">En</option>
               <option value="Ua">Ua</option>
@@ -93,13 +93,7 @@
         </div>
 
       <div class="fridge_wrap" id="fridge_wrap">
-        <!-- <div class="fridge" id="fridge">
-          <p id="box1"><u>№ Камеры:</u> 1000</p>
-          <p id="box2">Влажность: 1000 %</p>
-          <p id="box2">Температура: 1000 C&deg</p>
-          <p id="box3"><a href=""><u>Посмотреть содержимое</u></a></p>
-          <p id="box4"><a href=""><u>Удалить камеру</u></a></p>
-        </div> -->
+      
       <div id="messageError"><h3>Похоже, что у Вас еще нету камер для хранения!</h3></div>
       </div>
       <a class="scrollup" href="" title="ВВЕРХ"><i class="fas fa-arrow-circle-up fa-5x"></i></a>

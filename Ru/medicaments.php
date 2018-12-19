@@ -44,7 +44,7 @@
       <?php if (isset($_COOKIE['Id'])) : ?>
       <ul class="dws_ul_my-cabinet">
           <li class="language">
-            <select id="lang">
+            <select id="lang" onChange="locationr(this.value);">
               <option value="Ru" selected="selected">Ru</option>
               <option value="En">En</option>
               <option value="Ua">Ua</option>
@@ -100,22 +100,7 @@
         </div>
 
         <div class="medicaments_wrap" id="medicaments_wrap">
-          <div class="med_one" id="med_one">
-            <div id="row1">
-              <div id="name"><b><u>Название:</u></b> '+ json[i].Namewdwdwd +';</div>
-              <div id="amount"><b><u>Количество:</u></b> '+ json[i].Amount +';</div> 
-              <div id="price"><b><u>Цена:</u></b> '+ json[i].Price </div>
-              <div id="status"><b><u> Состояние:</u></b> ' + Не пригоден</div>
-              <a id="edit" href="editMedicament.php?idMedicament='+ json[i].IdMedicament +'&idFridge='+json[i].IdFridge+'">Редактировать</a>
-            </div>
-            <div id="row2">
-              <div id="dataProd"><b><u>Дата изготовления:</u></b> '+ rgrg +';</div>
-              <div id="dataExp"><b><u>Годен до:</u></b> '+ rrgrg +';</div> 
-              <div id="temp"><b><u>Хранить</u></b> <b> от</b> 10 C&deg'<b>до</b> 20 C&deg'+ ';</div>
-              <div></div>
-              <a id="del" onClick="deleteMedicaments('+ json[i].IdMedicament +',\''+ json[i].Name.trim() +'\')" >Удалить</a>
-            </div>
-          </div>
+          
 
           <div id="messageError"><h3>Препараты в данной камере отсутствуют!</h3></div>
         </div>
@@ -144,6 +129,12 @@
     function openAddMedicament(){
       document.location.href = "editMedicament.php?idFridge=" + idFridge;
     }
+
+    function locationr(lang){
+      var loc = window.location.href.split("/")[4];
+      window.location = "../" + lang + "/"+loc;
+    }
+
   </script>
 
   <script>$(".scrollup").fadeOut();</script>

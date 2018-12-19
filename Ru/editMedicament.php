@@ -16,7 +16,6 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="../js/bootstrap.js"></script>
-  <script src="../js/scroll_up.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="../js/jquery.cookie.js"></script>
   <script src="js/req.js"></script>
@@ -37,7 +36,7 @@
       <?php if (isset($_COOKIE['Id'])) : ?>
       <ul class="dws_ul_my-cabinet">
           <li class="language">
-            <select id="lang">
+            <select id="lang" onChange="locationr(this.value);">
               <option value="Ru" selected="selected">Ru</option>
               <option value="En">En</option>
               <option value="Ua">Ua</option>
@@ -93,18 +92,17 @@
         <div class="user_wrap" id="user_wrap">
             <div>Название препарата:<input id="nameMedicament" type="text" value=""></div>
             <div>Количество:<input id="amount" type="number" min="1" value=""></div>
-            <div>Цена:<input id="price" type="number" min="1" value=""></div>
+            <div>Цена:<input id="price" type="number" step="0.01" min="1" value=""></div>
             <div>Дата изготовления:<input type="date" min="2015-01-01" max="2050-12-31" id="dataProduction" value=""></div>
             <div>Годен до:<input type="date" min="2015-01-01" max="2050-12-31" id="expirationDate" value=""></div>
-            <div>Хранить от ( t C&deg):<input id="minTemperature" type="number" value=""></div>
-            <div>Хранить до ( t C&deg):<input id="maxTemperature" type="number" value=""></div>
+            <div>Хранить от ( t C&deg):<input id="minTemperature" type="number" step="0.01" value=""></div>
+            <div>Хранить до ( t C&deg):<input id="maxTemperature" type="number" step="0.01" value=""></div>
             <div>Состояние:  <select id="status"><option value="true">Пригоден</option><option value="false">Не пригоден</option></select> </div>
         </div> 
                     
-            <div class="save_medicament"><li id="save_medicament" onClick="saveMedicaments()">Сохранить</li></div>
-            <div class="s" id="Cancel"><a onClick="displayPass()">Отмена</a></div>
+            <div class="save_medicament" id="save_med"><li id="save_medicament" onClick="saveMedicaments()">Сохранить</li></div>
+            <div class="add_medicament" id="add_med"><li id="add_medicament" onClick="addMedicaments()">Добавить</li></div>
       </div>
-            <a class="scrollup" href="" title="ВВЕРХ"><i class="fas fa-arrow-circle-up fa-5x"></i></a>
       </div>
     </div>
   </body>
@@ -120,31 +118,32 @@
   </footer>
 
   <script>
+    try {
+      var params = window.location.href.split("?")[1].split("&");
+      var idFridge = params[0].split("=")[1];
+      var idMedicament = params[1].split("=")[1];
+    } catch (err) {
+      console.log(err);
+    }
+
     $(document).ready(function() {
-      loadOneMedicaments(window.location.href.split("?")[1].split("=")[1]);
+      if(idMedicament){
+        document.getElementById('add_med').style = "display: none";
+        loadOneMedicaments(idMedicament);
+      }
+      else{
+        document.getElementById('save_med').style = "display: none";
+      }
     });
 
-    var params = window.location.href.split("?")[1].split("&");
-    var id = params[0].split("=")[1];
-    var idFridge = params[1].split("=")[1];
-
-    function saveMedicaments(){
-      if((document.getElementById('nameMedicament').value.trim() != "") && document.getElementById('amount').validity.valid && 
-          document.getElementById('price').validity.valid && document.getElementById('dataProduction').validity.valid &&
-          document.getElementById('expirationDate').validity.valid && (dataProduction.value != "") &&
-          (expirationDate.value) && document.getElementById('minTemperature').validity.valid &&
-          document.getElementById('maxTemperature').validity.valid){
-        saveMedicament(id, idFridge, nameMedicament.value, amount.value, dataProduction.value,
-                      expirationDate.value, price.value, minTemperature.value, maxTemperature.value, document.getElementById("status").value);
-      }
+    function locationr(lang){
+      var loc = window.location.href.split("/")[4];
+      window.location = "../" + lang + "/"+loc;
     }
-    
+
   </script>
-
-  <script>$(".scrollup").fadeOut();</script>
-
 </html>
 <?php else : 
-header('Location: login.php');
+  header('Location: login.php');
 ?>
 <?php endif; ?>
